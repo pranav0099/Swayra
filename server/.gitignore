@@ -1,0 +1,4 @@
+node_modules/
+studydesk.db
+studydesk.db-shm
+studydesk.db-wal

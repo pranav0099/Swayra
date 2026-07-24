@@ -1,0 +1,13 @@
+{
+  "name": "Swayra-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Swayra as a standalone offline Windows app (bundles the Flutter web build).",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}

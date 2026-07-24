@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StudyDesk · Admin</title>
+<style>
+  :root {
+    --slate900:#0F172A; --slate700:#334155; --slate600:#475569; --slate500:#64748B;
+    --slate400:#94A3B8; --slate300:#CBD5E1; --slate200:#E2E8F0; --slate100:#F1F5F9; --slate50:#F8FAFC;
+    --blue:#2563EB; --emerald:#10B981; --amber:#F59E0B; --rose:#F43F5E;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin:0; color:var(--slate700); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:#fbfcfe;
+    background-image:linear-gradient(#e3edfb 1px,transparent 1px),linear-gradient(90deg,#e3edfb 1px,transparent 1px);
+    background-size:26px 26px;
+    min-height:100vh;
+  }
+  .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  .wrap { max-width:1100px; margin:0 auto; padding:24px 18px 60px; }
+
+  header.top {
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:2px solid var(--slate900); padding-bottom:12px; margin-bottom:22px;
+  }
+  .brand { display:flex; align-items:center; gap:10px; }
+  .logo { background:var(--slate900); color:#fff; width:34px; height:34px; border-radius:8px;
+          display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .brand h1 { font-family:ui-monospace,monospace; font-size:18px; margin:0; letter-spacing:-.5px; }
+  .brand p { margin:0; font-family:ui-monospace,monospace; font-size:11px; letter-spacing:3px; color:var(--slate500); }
+
+  button { font:inherit; cursor:pointer; border-radius:8px; border:1px solid transparent; }
+  .btn-dark { background:var(--slate900); color:#fff; padding:10px 16px; font-weight:600; }
+  .btn-dark:hover { background:#1e293b; }
+  .btn-ghost { background:#fff; border:1px solid var(--slate200); color:var(--slate600); padding:8px 14px; }
+  .btn-ghost:hover { background:var(--slate50); }
+
+  /* login */
+  .login-card { max-width:360px; margin:8vh auto 0; background:#fff; border:2px solid var(--slate900);
+                border-radius:16px; padding:26px; }
+  .login-card h2 { margin:0 0 4px; font-size:20px; color:var(--slate900); }
+  .login-card .sub { margin:0 0 18px; font-size:13px; color:var(--slate500); }
+  label { display:block; font-size:12px; color:var(--slate500); margin:12px 0 5px; font-weight:600; }
+  input { width:100%; padding:11px 12px; border:1px solid var(--slate200); border-radius:8px; font:inherit; outline:none; }
+  input:focus { border-color:var(--slate900); }
+  .err { color:var(--rose); font-size:13px; margin-top:12px; min-height:18px; }
+  .hint { font-size:12px; color:var(--slate400); margin-top:14px; }
+
+  /* dashboard */
+  .grid { display:grid; grid-template-columns: 1.05fr .95fr; gap:18px; }
+  @media (max-width:860px){ .grid { grid-template-columns:1fr; } }
+  .panel { background:#fff; border:1px solid var(--slate200); border-radius:14px; padding:0; overflow:hidden; }
+  .panel .phead { padding:14px 16px; border-bottom:1px solid var(--slate100); display:flex; align-items:center; justify-content:space-between; }
+  .cap { font-family:ui-monospace,monospace; font-size:11px; letter-spacing:2px; color:var(--slate500); font-weight:700; }
+  table { width:100%; border-collapse:collapse; }
+  th,td { text-align:left; padding:11px 16px; font-size:13px; border-bottom:1px solid var(--slate100); }
+  th { font-size:11px; letter-spacing:.5px; color:var(--slate400); text-transform:uppercase; }
+  tbody tr { cursor:pointer; }
+  tbody tr:hover { background:var(--slate50); }
+  tbody tr.active { background:#eff4ff; }
+  td .num { font-family:ui-monospace,monospace; font-weight:700; color:var(--slate900); }
+  .pill { display:inline-block; font-family:ui-monospace,monospace; font-size:12px; font-weight:700;
+          padding:2px 8px; border-radius:999px; }
+  .pill.red { background:#ffe4e6; color:#be123c; }
+  .pill.slate { background:var(--slate100); color:var(--slate600); }
+  .empty { padding:26px 16px; color:var(--slate400); font-size:13px; text-align:center; }
+
+  /* detail */
+  .detail-pad { padding:16px; }
+  .big { font-family:ui-monospace,monospace; font-weight:700; font-size:40px; color:var(--slate900); line-height:1; }
+  .row { display:flex; align-items:center; justify-content:space-between; padding:9px 0; border-bottom:1px dashed var(--slate200); }
+  .row:last-child { border-bottom:0; }
+  .muted { color:var(--slate400); }
+  .chk { width:18px; height:18px; border-radius:5px; border:1px solid var(--slate300); display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:12px; }
+  .chk.on { background:var(--emerald); border-color:var(--emerald); }
+  .chk.blue.on { background:var(--blue); border-color:var(--blue); }
+  .bar { height:8px; background:var(--slate100); border-radius:999px; overflow:hidden; flex:1; }
+  .bar > i { display:block; height:100%; background:var(--emerald); border-radius:999px; }
+  .stat3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:6px 0 16px; }
+  .stat { border:1px solid var(--slate200); border-radius:10px; padding:10px; }
+  .stat .v { font-family:ui-monospace,monospace; font-weight:700; font-size:20px; color:var(--slate900); }
+  .stat .l { font-size:11px; color:var(--slate400); }
+  h4 { margin:18px 0 8px; font-size:13px; color:var(--slate700); }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- LOGIN -->
+  <div id="login">
+    <div class="login-card">
+      <h2>StudyDesk Admin</h2>
+      <p class="sub">Sign in with an admin account.</p>
+      <label>Username</label>
+      <input id="u" autocomplete="username" />
+      <label>Password</label>
+      <input id="p" type="password" autocomplete="current-password" />
+      <div class="err" id="loginErr"></div>
+      <button class="btn-dark" style="width:100%;margin-top:6px" onclick="doLogin()">Sign in</button>
+      <p class="hint">Default admin: <span class="mono">admin / admin123</span></p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash" class="hidden">
+    <header class="top">
+      <div class="brand">
+        <div class="logo">🎓</div>
+        <div>
+          <h1>STUDYDESK</h1>
+          <p>ADMIN · USERS · COUNTDOWNS</p>
+        </div>
+      </div>
+      <div>
+        <button class="btn-ghost" onclick="loadUsers()">↻ Refresh</button>
+        <button class="btn-ghost" onclick="logout()">Log out</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="panel">
+        <div class="phead">
+          <span class="cap">ALL USERS</span>
+          <span class="cap" id="userCount"></span>
+        </div>
+        <div id="usersWrap"><div class="empty">Loading…</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="phead"><span class="cap">USER DETAIL</span></div>
+        <div id="detail"><div class="empty">Select a user to see their countdowns and goals.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = location.origin;
+let token = localStorage.getItem('sd_admin_token') || '';
+let activeId = null;
+
+function authHeaders() { return { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' }; }
+
+async function doLogin() {
+  const username = document.getElementById('u').value.trim();
+  const password = document.getElementById('p').value;
+  const err = document.getElementById('loginErr');
+  err.textContent = '';
+  try {
+    const r = await fetch(API + '/api/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username, password })
+    });
+    const data = await r.json();
+    if (!r.ok) { err.textContent = data.error || 'Login failed'; return; }
+    if (!data.user.isAdmin) { err.textContent = 'That account is not an admin.'; return; }
+    token = data.token;
+    localStorage.setItem('sd_admin_token', token);
+    showDash();
+  } catch (e) { err.textContent = 'Cannot reach server.'; }
+}
+
+function logout() {
+  fetch(API + '/api/logout', { method:'POST', headers: authHeaders() }).catch(()=>{});
+  token = ''; localStorage.removeItem('sd_admin_token');
+  document.getElementById('dash').classList.add('hidden');
+  document.getElementById('login').classList.remove('hidden');
+}
+
+function showDash() {
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('dash').classList.remove('hidden');
+  loadUsers();
+}
+
+function esc(s){ return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+async function loadUsers() {
+  const wrap = document.getElementById('usersWrap');
+  wrap.innerHTML = '<div class="empty">Loading…</div>';
+  const r = await fetch(API + '/api/admin/users', { headers: authHeaders() });
+  if (r.status === 401) return logout();
+  const { users } = await r.json();
+  document.getElementById('userCount').textContent = users.length + ' total';
+  if (!users.length) { wrap.innerHTML = '<div class="empty">No users yet.</div>'; return; }
+  let html = '<table><thead><tr><th>User</th><th>Next exam</th><th>Countdowns</th><th>Goals</th><th>Syllabus</th></tr></thead><tbody>';
+  for (const u of users) {
+    const next = u.nextExam
+      ? `<span class="pill ${u.nextExam.daysLeft <= 7 ? 'red':'slate'}">${u.nextExam.daysLeft}d</span> ${esc(u.nextExam.title)}`
+      : '<span class="muted">—</span>';
+    html += `<tr data-id="${u.id}" onclick="openUser(${u.id})">
+      <td><b>${esc(u.username)}</b>${u.isAdmin ? ' <span class="pill slate">admin</span>' : ''}</td>
+      <td>${next}</td>
+      <td><span class="num">${u.countdowns}</span></td>
+      <td><span class="num">${u.goalsDone}/${u.goals}</span></td>
+      <td><span class="num">${u.syllabusPct}%</span></td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+  if (activeId) markActive(activeId);
+}
+
+function markActive(id) {
+  document.querySelectorAll('#usersWrap tr').forEach(tr =>
+    tr.classList.toggle('active', tr.dataset.id == id));
+}
+
+async function openUser(id) {
+  activeId = id; markActive(id);
+  const d = document.getElementById('detail');
+  d.innerHTML = '<div class="empty">Loading…</div>';
+  const r = await fetch(API + '/api/admin/users/' + id, { headers: authHeaders() });
+  if (r.status === 401) return logout();
+  const { user, summary, state } = await r.json();
+  const events = (state.events || []);
+  const goals = (state.goals || []);
+  const subjects = (state.subjects || []);
+  const focus = state.focus || {};
+  const streak = state.streak || {};
+
+  let html = '<div class="detail-pad">';
+  html += `<div style="display:flex;align-items:baseline;gap:8px">
+            <span class="big" style="font-size:22px">${esc(user.username)}</span>
+            ${user.isAdmin ? '<span class="pill slate">admin</span>' : ''}</div>`;
+  html += `<div class="muted mono" style="font-size:12px;margin-top:4px">updated ${esc((user.updatedAt||'').slice(0,16).replace('T',' '))}</div>`;
+
+  html += `<div class="stat3" style="margin-top:14px">
+    <div class="stat"><div class="v">${summary.countdowns}</div><div class="l">countdowns</div></div>
+    <div class="stat"><div class="v">${summary.goalsDone}/${summary.goals}</div><div class="l">goals done</div></div>
+    <div class="stat"><div class="v">${summary.syllabusPct}%</div><div class="l">syllabus</div></div>
+  </div>`;
+  html += `<div class="stat3">
+    <div class="stat"><div class="v">${streak.best ?? 0}🔥</div><div class="l">best streak</div></div>
+    <div class="stat"><div class="v">${focus.total ?? 0}</div><div class="l">focus sessions</div></div>
+    <div class="stat"><div class="v">${focus.minutes ?? 0}</div><div class="l">focus minutes</div></div>
+  </div>`;
+
+  html += '<h4>Countdowns</h4>';
+  if (!events.length) html += '<div class="muted">No countdowns.</div>';
+  else for (const e of events) {
+    const dl = (e.daysLeft ?? 0);
+    const cls = dl < 0 ? 'slate' : dl <= 7 ? 'red' : 'slate';
+    html += `<div class="row"><span>${esc(e.title)}<br><span class="muted mono" style="font-size:11px">${esc(e.date)}</span></span>
+             <span class="pill ${cls}">${dl < 0 ? 'done' : dl + 'd'}</span></div>`;
+  }
+
+  html += '<h4>Goals</h4>';
+  if (!goals.length) html += '<div class="muted">No goals.</div>';
+  else for (const g of goals) {
+    html += `<div class="row"><span>${esc(g.text)}</span>
+             <span class="chk blue ${g.done ? 'on':''}">${g.done ? '✓':''}</span></div>`;
+  }
+
+  html += '<h4>Syllabus</h4>';
+  if (!subjects.length) html += '<div class="muted">No subjects.</div>';
+  else for (const s of subjects) {
+    const total = (s.topics||[]).length;
+    const done = (s.topics||[]).filter(t=>t.done).length;
+    const pct = total ? Math.round(done/total*100) : 0;
+    html += `<div style="margin:8px 0">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+        <b>${esc(s.name)}</b><span class="muted mono">${done}/${total}</span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div></div>`;
+  }
+
+  html += '</div>';
+  d.innerHTML = html;
+}
+
+// auto-enter on password field
+document.getElementById('p').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// resume session if token present
+if (token) {
+  fetch(API + '/api/me', { headers: authHeaders() })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(({ user }) => { if (user.isAdmin) showDash(); else logout(); })
+    .catch(() => { token=''; localStorage.removeItem('sd_admin_token'); });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# Render Blueprint — Swayra landing page.
+#
+# Served as a STATIC site (not a Node service): the page in docs/ is plain
+# HTML/CSS plus the APK, so there's nothing to run. Static sites are CDN-backed
+# and never sleep, unlike a free web service which cold-starts for ~50s.
+services:
+  - type: web
+    name: swayra
+    runtime: static
+    # Nothing to compile — the files in docs/ are shipped as-is.
+    buildCommand: "echo 'static site — no build step'"
+    staticPublishPath: ./docs
+    pullRequestPreviewsEnabled: false
+    headers:
+      # Serve the APK with the correct Android MIME type so phones treat it
+      # as an app install rather than an unknown binary.
+      - path: /swayra.apk
+        name: Content-Type
+        value: application/vnd.android.package-archive
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff

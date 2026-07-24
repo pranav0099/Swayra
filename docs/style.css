@@ -1,0 +1,267 @@
+/* ============================================================
+   SWAYRA — landing page (Ritualz-inspired)
+   Off-white glow, floating phone, huge tight headline.
+   Light theme, fully responsive.
+   ============================================================ */
+
+:root {
+  --ink: #0e0e10;          /* near-black text */
+  --muted: #6b6b6b;        /* secondary text */
+  --faint: #9a9a9a;        /* labels */
+  --line: #e6e6e2;         /* hairlines / borders */
+  --surface: #ffffff;      /* light button surface */
+  --star: #f5b301;
+  --accent: #ff5c00;       /* Kinetic Orange */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* soft off-white with a gentle glow behind the phone */
+  background:
+    radial-gradient(90% 90% at 30% 42%, #ffffff 0%, #f3f3f0 55%, #ececea 100%);
+  background-attachment: fixed;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px clamp(22px, 6vw, 60px);
+}
+
+.logo {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.navbar nav a {
+  text-decoration: none;
+  color: var(--faint);
+  margin-left: 28px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  transition: color 0.2s ease;
+}
+.navbar nav a:hover { color: var(--ink); }
+
+/* ---------- Hero ---------- */
+.hero-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(48px, 9vw, 130px);
+  padding: 40px clamp(24px, 6vw, 60px) 70px;
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ---------- Realistic floating phone ---------- */
+.phone {
+  position: relative;
+  width: clamp(260px, 30vw, 320px);
+  aspect-ratio: 300 / 620;
+  background: #050505;
+  border-radius: 52px;
+  padding: 11px;
+  flex-shrink: 0;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),                 /* bezel edge */
+    0 50px 90px -30px rgba(20, 20, 25, 0.45),     /* big soft drop */
+    0 20px 50px -20px rgba(20, 20, 25, 0.25);
+}
+
+.phone-island {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 26px;
+  background: #050505;
+  border-radius: 999px;
+  z-index: 3;
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 42px;
+  overflow: hidden;
+  background: #0f1112; /* dark fallback if image missing */
+}
+
+/* Slideshow: stacked screenshots that cross-fade every 5s (JS toggles .is-active) */
+.phone-screen .slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.phone-screen .slide.is-active { opacity: 1; }
+
+/* ---------- Content ---------- */
+.content {
+  max-width: 520px;
+}
+
+.subtag {
+  font-family: "Space Mono", ui-monospace, monospace;
+  color: var(--muted);
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: clamp(52px, 9vw, 104px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  margin: 16px 0 10px;
+}
+
+.description {
+  font-size: clamp(18px, 2.4vw, 22px);
+  color: var(--muted);
+  margin-bottom: 34px;
+}
+
+/* ---------- Rating ---------- */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  letter-spacing: 1.3px;
+  color: var(--faint);
+  font-weight: 600;
+}
+.stars { color: var(--star); font-size: 15px; letter-spacing: 1px; }
+.score { color: var(--ink); font-weight: 800; font-size: 14px; letter-spacing: 0; }
+.dot { color: var(--faint); }
+
+/* ---------- Store buttons ---------- */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.store-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 22px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font: inherit;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.store-btn:hover { transform: translateY(-2px); }
+.store-btn:active { transform: translateY(0); }
+.store-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.store-btn i { font-size: 26px; line-height: 1; }
+
+.store-btn__label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.15;
+}
+.store-btn__label small {
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  opacity: 0.75;
+}
+.store-btn__label strong { font-size: 16px; font-weight: 700; }
+
+.store-btn--dark {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.5);
+}
+.store-btn--dark:hover { background: #000; }
+
+.store-btn--light {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+  box-shadow: 0 8px 22px -12px rgba(0, 0, 0, 0.25);
+}
+.store-btn--light:hover { background: #fafafa; }
+
+.web-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--faint);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 6px;
+  transition: color 0.2s ease;
+}
+.web-link:hover { color: var(--accent); }
+.web-link i { font-size: 15px; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  text-align: center;
+  padding: 30px;
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+.site-footer .heart { color: #ff5a5a; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .hero-container {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 46px;
+    padding-top: 24px;
+  }
+  .content { max-width: 100%; }
+  .subtag { display: inline-block; }
+  .rating, .actions { justify-content: center; }
+  .store-btn__label { text-align: left; }
+}
+
+@media (max-width: 440px) {
+  .navbar { padding: 20px; }
+  .navbar nav a { margin-left: 16px; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .store-btn { justify-content: center; }
+  .web-link { justify-content: center; }
+}

@@ -1,0 +1,18 @@
+# Workspace root gitignore
+.claude/
+*.log
+.DS_Store
+desktop/dist/
+desktop/node_modules/
+server/node_modules/
+study_desk/build/
+study_desk/.dart_tool/
+study_desk/.pub/
+
+# Build output in ANY module (study_desk/build/ alone missed
+# study_desk/android/build/, which is how a Gradle report got committed).
+**/build/
+
+# Local runtime logs
+desktop/widget-log.txt
+desktop/state.json

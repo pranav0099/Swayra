@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SWAYRA — Minimal Habit Tracker</title>
+  <meta name="description" content="SWAYRA — Build your best self, one ritual at a time. A minimal habit tracker with streaks, a year heatmap, focus timer and reminders. Direct APK download." />
+  <meta name="theme-color" content="#f4f4f2" />
+
+  <meta property="og:title" content="SWAYRA — Minimal Habit Tracker" />
+  <meta property="og:description" content="Show up daily. One habit at a time." />
+  <meta property="og:type" content="website" />
+
+  <!-- Flame favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="logo">🔥 SWAYRA</div>
+  </header>
+
+  <!-- Hero -->
+  <main class="hero-container">
+
+    <!-- Left: realistic floating phone with a 5s image slideshow -->
+    <div class="phone">
+      <div class="phone-island"></div>
+      <div class="phone-screen">
+        <!-- Save your screenshots into docs/ with these exact names -->
+        <img src="swayra-1.png" class="slide is-active" alt="SWAYRA welcome screen" />
+        <img src="swayra-2.png" class="slide" alt="SWAYRA syllabus tracker" />
+        <img src="swayra-3.png" class="slide" alt="SWAYRA habits & heatmap" />
+      </div>
+    </div>
+
+    <!-- Right: content + downloads -->
+    <div class="content">
+      <span class="subtag">// MINIMAL HABIT TRACKER</span>
+      <h1>Show up daily.</h1>
+      <p class="description">One habit at a time.</p>
+
+      <!-- Actions -->
+      <div class="actions">
+
+        <!-- Android APK — primary (dark) -->
+        <a href="./swayra.apk" download="Swayra.apk" class="store-btn store-btn--dark">
+          <i class="fa-brands fa-android"></i>
+          <span class="store-btn__label">
+            <small>Direct Download</small>
+            <strong>SWAYRA APK</strong>
+          </span>
+        </a>
+
+        <!-- iOS PWA — secondary (light) -->
+        <button
+          type="button"
+          class="store-btn store-btn--light"
+          onclick="alert(&quot;To install SWAYRA on iPhone: Open this site in Safari, tap the Share icon, and select 'Add to Home Screen'!&quot;)">
+          <i class="fa-brands fa-apple"></i>
+          <span class="store-btn__label">
+            <small>Install on</small>
+            <strong>iOS (PWA)</strong>
+          </span>
+        </button>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    CREATED WITH <span class="heart">♥</span> BY PRANAV
+  </footer>
+
+  <!-- Slideshow: cross-fade the phone screenshots every 5 seconds -->
+  <script>
+    (function () {
+      var slides = document.querySelectorAll('.phone-screen .slide');
+      if (slides.length < 2) return;
+      var i = 0;
+      setInterval(function () {
+        slides[i].classList.remove('is-active');
+        i = (i + 1) % slides.length;
+        slides[i].classList.add('is-active');
+      }, 5000);
+    })();
+  </script>
+
+</body>
+</html>

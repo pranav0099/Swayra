@@ -1,0 +1,17 @@
+{
+  "name": "studydesk-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "StudyDesk backend: user accounts, state sync, and an admin panel.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

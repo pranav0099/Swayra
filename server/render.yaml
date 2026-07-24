@@ -1,0 +1,23 @@
+# One-click deploy config for Render (https://render.com).
+# In Render: New → Blueprint → point it at this repo. Everything below is set
+# up for you. Free plan, no credit card.
+services:
+  - type: web
+    name: studydesk
+    runtime: node
+    plan: free
+    # The server lives in the server/ folder of the repo.
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Your admin login for /admin. Render will ask you to type these when you
+      # deploy (they are NOT stored in the repo). Pick a strong password —
+      # the app is public.
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
